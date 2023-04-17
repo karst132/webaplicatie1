@@ -5,7 +5,7 @@
     font-family: 'poppins', sans-serif;
 }
 header{
-    width: 100vw;
+    width: 100%;
     height: 100px;
     background-color: gray;
     padding: 20px;
@@ -21,6 +21,7 @@ header{
     height: 30%;
     width: 100%;
     background-color: darkgray;
+    padding: 7px;
 }
 .bottom-menu-item{
     border: 2px black solid;
@@ -29,6 +30,8 @@ header{
     height: 70%;
     width: 100%;
     background-color: darkgray;
+    padding: 7px;
+    display: flex
 }
 main{
     display: flex;
@@ -41,6 +44,23 @@ main{
     flex-wrap: wrap;
     gap: 30px;
     
-    justify-content: center;
-    
+}
+.border{
+    border: 2px black solid;
+}
+.bescrijving{
+    display: block;
+    width: 100%;
+    margin-right: 10px;
+}
+.prijs{
+    font-size: larger;
+}
+.text-input{
+    height: 100px;
+    width: 500px;
+}
+.col{
+    display: flex;
+    flex-direction:column;
 }

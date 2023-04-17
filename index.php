@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-<?php
+    <?php
      $dsn = 'mysql:dbname=test;host=127.0.0.1';
      $user = 'root';
      $password = '';
@@ -22,52 +22,36 @@
     ?>
     <header>
         Menu kaart
+        <form method="get">
+            <input type="text" name="zoekveld">
+            <input type="submit" value="zoek">
+        </form>
     </header>
     <main>
         <div class="container">
-        <?php
-            $resultSet = $connectie->query("SELECT * FROM menu_test");
-            while ($item = $resultSet->fetch())
+            <?php
+                if(isset($_GET['zoekveld'])){
+                    $zoekveld = $_GET['zoekveld'];
+                    $resultSet = $connectie->query("SELECT * FROM menu_test WHERE titel like '%$zoekveld%' or beschrijving like '%$zoekveld%'");
+                }
+                else{
+                    $resultSet = $connectie->query("SELECT * FROM menu_test");
+                }
+                while ($item = $resultSet->fetch())
                 {
-                // echo
-                // "<div>
-                //     <h2>" . $item['titel'] . "</h2>
-                //     <p>" . $item['beschrijving'] . "<p>
-                // </div>";
                 echo
                 '<div class="menu-item">
                     <div class="top-menu-item">
                         <h2>' . $item['titel'] . '</h2>
                     </div>
                     <div class="bottom-menu-item">
-                    <p>' . $item['beschrijving'] . '<p> 
-                    </div>
-                </div>';
-                echo
-                '<div class="menu-item">
-                    <div class="top-menu-item">
-                        <h2>' . $item['titel'] . '</h2>
-                    </div>
-                    <div class="bottom-menu-item">
-                    <p>' . $item['beschrijving'] . '<p> 
-                    </div>
-                </div>';
-                echo
-                '<div class="menu-item">
-                    <div class="top-menu-item">
-                        <h2>' . $item['titel'] . '</h2>
-                    </div>
-                    <div class="bottom-menu-item">
-                    <p>' . $item['beschrijving'] . '<p> 
-                    </div>
-                </div>';
-                echo
-                '<div class="menu-item">
-                    <div class="top-menu-item">
-                        <h2>' . $item['titel'] . '</h2>
-                    </div>
-                    <div class="bottom-menu-item">
-                    <p>' . $item['beschrijving'] . '<p> 
+                        <div class="bescrijving">
+                            <p>' . $item['beschrijving'] . '<p> 
+                        </div>
+                        <div>
+                        <p class="prijs"> &euro;' .$item['prijs'] . '<p> 
+                        <a href="edit.php?id='. $item['id'].'  ">wijzig</a>
+                        </div>
                     </div>
                 </div>';
                 }
