@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,11 +25,20 @@
      }
     ?>
     <header>
-        Menu kaart
-        <form method="get">
-            <input type="text" name="zoekveld">
-            <input type="submit" value="zoek">
-        </form>
+        <div class="header-text">
+            <h1>
+                Menu kaart
+            </h1>
+            <form method="get">
+                <input type="text" name="zoekveld">
+                <input type="submit" value="zoek">
+            </form>
+        </div>
+        <a href="login.php">
+            <div class="login">
+                login
+            </div>
+        </a>
     </header>
     <main>
         <div class="container">
@@ -50,21 +63,18 @@
                         </div>
                         <div>
                         <p class="prijs"> &euro;' .$item['prijs'] . '<p> 
-                        <a href="edit.php?id='. $item['id'].'  ">wijzig</a>
-                        </div>
+                        ';
+                        if(isset($_SESSION['naam'])) {
+                        echo
+                        '<a class="blue-text" href="edit.php?id='. $item['id'].'  ">wijzig</a>';
+                        
+                        }
+                        echo '</div>
                     </div>
                 </div>';
                 }
             ?>
         </div>
     </main>
-    <!-- <div class="menu-item">
-        <div class="top-menu-item">
-
-        </div>
-        <div class="bottom-menu-item">
-
-        </div>
-    </div>  -->
 </body>
 </html>

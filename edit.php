@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +12,7 @@
     <title>Document</title>
 </head>
 <body>
-<?php
+    <?php
      $dsn = 'mysql:dbname=test;host=127.0.0.1';
      $user = 'root';
      $password = '';
@@ -22,7 +26,7 @@
     $menuItem = $statement->fetch();
     ?>
     <header>
-        Menu kaart
+        <h1>Bewerken</h1>
     </header>
     <main>
         <div class="col"> 
