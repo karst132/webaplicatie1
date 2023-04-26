@@ -13,16 +13,16 @@ session_start();
 </head>
 <body>
     <?php
-     $dsn = 'mysql:dbname=test;host=127.0.0.1';
-     $user = 'root';
-     $password = '';
-     try{
-         $connectie = new PDO($dsn, $user, $password);
-     }
-     catch (PDOException $e)
-     {
-         echo "gefaalt" . $e;
-     }
+    $dsn = 'mysql:dbname=test;host=127.0.0.1';
+    $user = 'root';
+    $password = '';
+    try{
+        $connectie = new PDO($dsn, $user, $password);
+    }
+    catch (PDOException $e)
+    {
+        echo "gefaalt" . $e;
+    }
     ?>
     <header>
         <div class="header-text">
@@ -34,19 +34,33 @@ session_start();
                 <input type="submit" value="zoek">
             </form>
         </div>
-        <a href="login.php">
-            <div class="login">
-                login
-            </div>
-        </a>
+        <?php
+            if(!isset($_SESSION['naam'])) {
+                echo
+                '<a href="login.php"
+                    <div class="top-button">
+                        login
+                    </div>
+                </a>';
+                }
+            else{
+                echo
+                '<a href="add.php"
+                    <div class="top-button">
+                        toevoegen
+                    </div>
+                </a>';
+            }
+        ?>
     </header>
     <main>
         <div class="container">
             <?php
                 if(isset($_GET['zoekveld'])){
                     $zoekveld = $_GET['zoekveld'];
-                    $resultSet = $connectie->query("SELECT * FROM menu_test WHERE titel like '%$zoekveld%' or beschrijving like '%$zoekveld%'");
-                }
+                    $resultSet = $connectie->prepare("SELECT * FROM menu_test WHERE titel like (?) or beschrijving like (?)");
+                    $resultSet->execute(array("%$zoekveld%", "%$zoekveld%"));
+                }   
                 else{
                     $resultSet = $connectie->query("SELECT * FROM menu_test");
                 }
@@ -67,7 +81,6 @@ session_start();
                         if(isset($_SESSION['naam'])) {
                         echo
                         '<a class="blue-text" href="edit.php?id='. $item['id'].'  ">wijzig</a>';
-                        
                         }
                         echo '</div>
                     </div>

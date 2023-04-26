@@ -30,13 +30,12 @@ session_start();
                     echo "gefaalt" . $e;
                 }
                 
-                $resultSet = $connectie->prepare("SELECT * FROM `users` WHERE 'username' = ? AND 'password' = ?");
+                $resultSet = $connectie->prepare("SELECT * FROM `users` WHERE `username` = ? AND `password` = ?");
                 $resultSet->execute([$_POST['username'], $_POST['password']]);
 
                 if ($resultSet->rowCount() == 1){
                     echo "klopt";
                     $_SESSION['naam'] = $_POST['username'];
-
                 }
                 else{
                     echo "klopt niet";
@@ -48,6 +47,7 @@ session_start();
                 password:  <input type="text" name="password">
                 <input type="submit" name="login" value="Inloggen">
             </form>
+            <a href="index.php" class="blue-text">Terug</a>
         </div>
     <main>
 </body>

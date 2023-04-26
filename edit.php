@@ -13,14 +13,25 @@ session_start();
 </head>
 <body>
     <?php
-     $dsn = 'mysql:dbname=test;host=127.0.0.1';
-     $user = 'root';
-     $password = '';
-     $dbh = new PDO($dsn, $user, $password);
-     $id = $_GET['id'];
-     if(isset($_POST['wijzig'])){
+    $dsn = 'mysql:dbname=test;host=127.0.0.1';
+    $user = 'root';
+    $password = '';
+    $dbh = new PDO($dsn, $user, $password);
+    $id = $_GET['id'];
+    if(isset($_POST['wijzig']) && isset($_SESSION['naam'])){
+        $titel = $_POST['titel'];
+        $updatetitel = $dbh->prepare("UPDATE menu_test SET titel = (?) WHERE id =$id");
+        $updatetitel->execute(array ($titel));
         $omschrijving = $_POST['beschrijving'];
-        $dbh->query("UPDATE menu_test SET beschrijving = '$omschrijving' WHERE id =$id");
+        $updatebeschrijving = $dbh->prepare("UPDATE menu_test SET beschrijving = (?) WHERE id =$id");
+        $updatebeschrijving->execute(array ($omschrijving));
+        $prijs = ($_POST['prijs']/100);
+        $updateprijs = $dbh->prepare("UPDATE menu_test SET prijs = (?) WHERE id =$id");
+        $updateprijs->execute(array ($prijs));
+    }
+    if(isset($_POST['verwijder']) && isset($_SESSION['naam'])){
+        $dbh->query("DELETE FROM menu_test WHERE id =$id");
+        header("Location: index.php");
     }
     $statement = $dbh->query("SELECT * FROM menu_test WHERE id = $id");
     $menuItem = $statement->fetch();
@@ -30,13 +41,19 @@ session_start();
     </header>
     <main>
         <div class="col"> 
-            <h1><?php echo $menuItem['titel'] ?></h1>
             <form method="post" action="edit.php?id=<?php echo $id ?>">
                 <div class="col">
+                    Titel
+                    <input type="text" name="titel" value="<?php echo $menuItem['titel'] ?>">
+                    Beschrijving
                     <textarea class="text-input" type="text" name="beschrijving"><?php echo $menuItem['beschrijving'] ?></textarea>
+                    Prijs in centen
+                    <input type="number" name="prijs" value="<?php echo ($menuItem['prijs']*100) ?>">
                     <input type="submit" name="wijzig" value="Wijzig">
+                    <input type="submit" name="verwijder" value="Verwijder">
                 </div>
             </form>
+            <a href="index.php" class="blue-text">Terug</a>
         </div>
     </main>
 </body>
